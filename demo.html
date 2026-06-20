@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Demo — AI Tools for Local Business</title>
+<style>
+</style>
+<link rel="stylesheet"  href="demo_style.css">
+</head>
+<body>
+
+<div class="demo-header">
+    <a href="index.html" style="text-decoration: none; color: inherit;">
+    <div class="nav-brand" onclick="">
+      <svg width="30" height="30" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="38" rx="9" fill="#c8f97c"/><path d="M10 19 L16 13 L22 19 L28 13" stroke="#111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 25 L16 19 L22 25 L28 19" stroke="#111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/></svg>
+      <div class="nav-brand-name">Linx <span>Solutions</span></div>
+    </div>
+    </a>
+  <div class="demo-badge">Live Demo</div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('textback')">📱 Missed Call Text-Back</div>
+  <div class="tab" onclick="switchTab('reviews')">⭐ Review Responder</div>
+</div>
+
+<div class="demo-body">
+
+  <!-- TEXT BACK PANEL -->
+  <div id="panel-textback" class="panel active">
+    <div class="two-col">
+      <div>
+        <div class="card">
+          <div class="card-title">Customize your text-back</div>
+
+          <label>Business name</label>
+          <input type="text" id="biz-name" placeholder="e.g. Valley Roofing Co." value="">
+
+          <label>Your industry</label>
+          <select id="industry">
+            <option value="">Select one…</option>
+            <option value="roofing">Roofing</option>
+            <option value="hvac">HVAC</option>
+            <option value="plumbing">Plumbing</option>
+            <option value="medspa">Med Spa</option>
+            <option value="dental">Dental</option>
+            <option value="law">Law Firm</option>
+            <option value="other">Other</option>
+          </select>
+
+          <label>Caller's first name (for demo)</label>
+          <input type="text" id="caller-name" placeholder="e.g. Mike" value="">
+
+          <label>Tone</label>
+          <select id="tone">
+            <option value="friendly">Friendly & casual</option>
+            <option value="professional">Professional</option>
+            <option value="urgent">Urgent & responsive</option>
+          </select>
+
+          <button class="btn btn-dark" onclick="generateTextback()">▶ Simulate missed call</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="card-title" style="font-size:13px;font-weight:500;color:#aaa;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;">What the customer sees</div>
+        <div class="phone-mock">
+          <div class="phone-screen">
+            <div class="phone-header">
+              <div class="phone-contact">Text message</div>
+              <div class="phone-name" id="phone-contact-name">—</div>
+            </div>
+            <div class="phone-msgs" id="phone-msgs">
+              <div class="msg-time">Hit "Simulate missed call" to preview →</div>
+            </div>
+          </div>
+        </div>
+        <div id="textback-status" class="status-pill pill-gray" style="display:none;margin:16px auto;width:fit-content;"></div>
+      </div>
+    </div>
+    <div class="demo-note">This is exactly what goes out within 60 seconds of a missed call — automatically, even when you're on a job.</div>
+  </div>
+
+  <!-- REVIEWS PANEL -->
+  <div id="panel-reviews" class="panel">
+    <div class="two-col">
+      <div>
+        <div class="card">
+          <div class="card-title">Paste a real review</div>
+
+          <label>Business name</label>
+          <input type="text" id="rev-biz" placeholder="e.g. Valley Roofing Co." value="">
+
+          <label>Star rating</label>
+          <div class="star-row" id="star-row">
+            <span class="star" onclick="setStar(1)">★</span>
+            <span class="star" onclick="setStar(2)">★</span>
+            <span class="star" onclick="setStar(3)">★</span>
+            <span class="star" onclick="setStar(4)">★</span>
+            <span class="star" onclick="setStar(5)">★</span>
+          </div>
+
+          <label>Reviewer name</label>
+          <input type="text" id="rev-name" placeholder="e.g. Sarah M." value="">
+
+          <label>Review text</label>
+          <textarea id="rev-text" placeholder="Paste the customer's review here…"></textarea>
+
+          <button class="btn btn-dark" onclick="generateReview()">▶ Generate response</button>
+          <button class="btn btn-outline" style="margin-left:8px;" onclick="loadExample()">Load example</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="card-title" style="font-size:13px;font-weight:500;color:#aaa;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;">Generated response</div>
+        <div id="review-output">
+          <div style="color:#bbb;font-size:14px;padding:20px 0;">Fill in the form and click "Generate response" →</div>
+        </div>
+      </div>
+    </div>
+    <div class="demo-note">Every review gets a response like this — posted within 24 hours, personalized to the reviewer and the content of what they said.</div>
+  </div>
+
+</div>
+
+<script>
+let starRating = 5;
+
+function switchTab(id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function setStar(n) {
+  starRating = n;
+  document.querySelectorAll('.star').forEach((s, i) => {
+    s.classList.toggle('lit', i < n);
+  });
+}
+
+function loadExample() {
+  document.getElementById('rev-biz').value = 'Valley Roofing Co.';
+  document.getElementById('rev-name').value = 'Sarah M.';
+  document.getElementById('rev-text').value = "Had my roof replaced after the hail storm and Valley Roofing did an amazing job. The crew showed up on time, cleaned everything up, and the foreman walked me through the whole job. Only thing I'd mention is communication during the project could've been a bit better — I had to call a couple times to get updates. But the work itself is excellent and I'd recommend them.";
+  setStar(4);
+}
+
+async function generateTextback() {
+  const biz = document.getElementById('biz-name').value.trim() || 'our business';
+  const caller = document.getElementById('caller-name').value.trim() || 'there';
+  const industry = document.getElementById('industry').value;
+  const tone = document.getElementById('tone').value;
+
+  document.getElementById('phone-contact-name').textContent = biz;
+  const msgs = document.getElementById('phone-msgs');
+  msgs.innerHTML = '<div style="padding:20px;text-align:center;"><div class="loading-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>';
+
+  const industryLabel = {
+    roofing: 'roofing', hvac: 'HVAC', plumbing: 'plumbing',
+    medspa: 'med spa', dental: 'dental office', law: 'law firm', other: 'local service business'
+  }[industry] || 'local business';
+
+  const toneLabel = { friendly: 'friendly and warm', professional: 'professional and polished', urgent: 'urgent and action-oriented' }[tone];
+
+  const prompt = `You are an AI that sends instant text-back messages on behalf of local businesses when they miss a phone call.
+
+Business name: ${biz}
+Industry: ${industryLabel}
+Caller's name: ${caller}
+Tone: ${toneLabel}
+
+Write a single, natural SMS text-back message (under 120 characters ideally, 160 max) that:
+1. Acknowledges the missed call
+2. Shows they care about the caller
+3. Invites the caller to reply with what they need
+4. Feels human, not robotic
+
+Respond with ONLY the SMS text. No quotes, no explanation.`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await res.json();
+    const text = data.content?.[0]?.text?.trim() || 'Hey! Sorry we missed your call. What can we help you with?';
+
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    msgs.innerHTML = `
+      <div class="msg-time">Missed call · ${timeStr}</div>
+      <div class="msg msg-out">${text}</div>
+    `;
+
+    const status = document.getElementById('textback-status');
+    status.style.display = 'inline-flex';
+    status.className = 'status-pill pill-green';
+    status.textContent = '✓ Sent within 60 seconds of missed call';
+
+  } catch(e) {
+    msgs.innerHTML = '<div style="color:#e24b4a;font-size:13px;padding:12px;">Error generating preview. Please try again.</div>';
+  }
+}
+
+async function generateReview() {
+  const biz = document.getElementById('rev-biz').value.trim() || 'our business';
+  const name = document.getElementById('rev-name').value.trim() || 'the reviewer';
+  const review = document.getElementById('rev-text').value.trim();
+  const stars = starRating;
+
+  if (!review) {
+    document.getElementById('review-output').innerHTML = '<div style="color:#e24b4a;font-size:13px;">Please enter a review first.</div>';
+    return;
+  }
+
+  const output = document.getElementById('review-output');
+  output.innerHTML = '<div style="padding:20px;text-align:center;"><div class="loading-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>';
+
+  const starsDisplay = '★'.repeat(stars) + '☆'.repeat(5 - stars);
+  const sentiment = stars >= 4 ? 'positive' : stars === 3 ? 'mixed' : 'negative';
+
+  const prompt = `You manage Google review responses for a local business called "${biz}".
+
+A customer named ${name} left a ${stars}-star (${sentiment}) review:
+"${review}"
+
+Write a professional, warm, and genuinely personal response to this review that:
+- Thanks them by first name
+- Acknowledges specific things they mentioned
+- Addresses any concerns constructively and without being defensive
+- Ends with an invitation to return or reach out
+- Sounds human, not corporate
+
+Respond with ONLY the review response text. No preamble, no explanation.`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await res.json();
+    const responseText = data.content?.[0]?.text?.trim() || 'Thank you for your feedback!';
+
+    output.innerHTML = `
+      <div class="review-out-card">
+        <div class="rev-biz-name">${biz}</div>
+        <div class="rev-stars-row">${'<span class="rev-star">★</span>'.repeat(stars)}${'<span style="color:#ddd;font-size:14px;">★</span>'.repeat(5-stars)}</div>
+        <div class="rev-review-text">"${review}"</div>
+        <div class="rev-response-label">Owner response · Posted within 24 hrs</div>
+        <div class="rev-response-text">${responseText}</div>
+      </div>
+    `;
+  } catch(e) {
+    output.innerHTML = '<div style="color:#e24b4a;font-size:13px;">Error generating response. Please try again.</div>';
+  }
+}
+</script>
+</body>
+</html>
