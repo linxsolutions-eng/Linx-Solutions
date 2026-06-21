@@ -44,6 +44,9 @@ app.post('/api/create-subscription', async (req, res) => {
       metadata: { businessName, industry }
     });
 
+    console.log('Subscription object:', JSON.stringify(subscription.latest_invoice, null, 2));
+
+
     const paymentIntent = subscription.latest_invoice.payment_intent;
 
     return res.json({
