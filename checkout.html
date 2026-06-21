@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://js.stripe.com/v3/"></script>
+<title>Checkout — Linx Solutions</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f7f6f2; color: #1a1a18; min-height: 100vh; }
+
+  /* NAV */
+  nav { background: #111110; height: 60px; display: flex; align-items: center; padding: 0 40px; }
+  .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-brand-name { font-size: 16px; font-weight: 600; color: #fff; letter-spacing: -0.02em; }
+  .nav-brand-name span { color: #c8f97c; }
+  .nav-secure { margin-left: auto; display: flex; align-items: center; gap: 6px; font-size: 12px; color: #555; }
+  .nav-secure svg { width: 14px; height: 14px; stroke: #555; fill: none; stroke-width: 2; }
+
+  /* LAYOUT */
+  .page { max-width: 960px; margin: 0 auto; padding: 48px 24px 80px; display: grid; grid-template-columns: 1fr 380px; gap: 32px; align-items: start; }
+
+  /* LEFT — FORM */
+  .form-col { display: flex; flex-direction: column; gap: 24px; }
+
+  .form-block { background: #fff; border-radius: 14px; border: 1px solid #e8e7e3; padding: 28px; }
+  .block-title { font-size: 13px; font-weight: 600; color: #aaa; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 20px; }
+
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+  .field:last-child { margin-bottom: 0; }
+  .field label { font-size: 13px; font-weight: 500; color: #555; }
+  .field input, .field select { border: 1px solid #e0deda; border-radius: 8px; padding: 11px 14px; font-size: 14px; font-family: inherit; color: #111; background: #faf9f6; outline: none; transition: border 0.15s, box-shadow 0.15s; width: 100%; }
+  .field input:focus, .field select:focus { border-color: #111; box-shadow: 0 0 0 3px rgba(0,0,0,0.06); background: #fff; }
+  .field input::placeholder { color: #bbb; }
+
+  /* CARD INPUT */
+  .card-fields { display: grid; grid-template-columns: 1fr 100px 80px; gap: 14px; }
+
+  .card-input-wrap { position: relative; }
+  .card-input-wrap input { padding-right: 48px; }
+  .card-icons { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); display: flex; gap: 4px; }
+  .card-icon { width: 28px; height: 18px; border-radius: 3px; border: 1px solid #e0deda; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: #aaa; }
+  .card-icon.visa { color: #1a1f71; }
+  .card-icon.mc { background: #fff; }
+
+  /* BILLING TOGGLE */
+  .billing-notice { background: #edf9d3; border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #3a7c0a; display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+
+  /* CHECKBOX */
+  .check-row { display: flex; align-items: flex-start; gap: 10px; }
+  .check-row input[type=checkbox] { width: 16px; height: 16px; margin-top: 2px; accent-color: #111; flex-shrink: 0; cursor: pointer; }
+  .check-row label { font-size: 13px; color: #777; line-height: 1.5; cursor: pointer; }
+  .check-row label a { color: #111; }
+
+  /* SUBMIT */
+  .submit-btn { width: 100%; background: #111; color: #fff; font-size: 16px; font-weight: 600; padding: 16px; border-radius: 10px; border: none; cursor: pointer; transition: background 0.15s; display: flex; align-items: center; justify-content: center; gap: 10px; }
+  .submit-btn:hover { background: #2a2a28; }
+  .submit-btn svg { width: 16px; height: 16px; stroke: #fff; fill: none; stroke-width: 2; }
+  .submit-note { text-align: center; font-size: 12px; color: #bbb; margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+  .submit-note svg { width: 12px; height: 12px; stroke: #bbb; fill: none; stroke-width: 2; }
+
+  /* RIGHT — ORDER SUMMARY */
+  .summary-col { position: sticky; top: 24px; }
+  .summary-card { background: #fff; border-radius: 14px; border: 1px solid #e8e7e3; overflow: hidden; }
+  .summary-header { background: #111110; padding: 20px 24px; }
+  .summary-header-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #555; margin-bottom: 6px; }
+  .summary-header-title { font-size: 18px; font-weight: 600; color: #fff; }
+  .summary-body { padding: 24px; }
+
+  .summary-item { display: flex; justify-content: space-between; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid #f0efeb; }
+  .summary-item:last-of-type { border-bottom: none; }
+  .item-info {}
+  .item-name { font-size: 14px; font-weight: 500; color: #111; margin-bottom: 3px; }
+  .item-desc { font-size: 12px; color: #aaa; line-height: 1.4; }
+  .item-price { font-size: 14px; font-weight: 600; color: #111; white-space: nowrap; padding-left: 16px; }
+
+  .summary-divider { height: 1px; background: #f0efeb; margin: 4px 0; }
+
+  .summary-total { display: flex; justify-content: space-between; align-items: center; padding: 18px 0 4px; }
+  .total-label { font-size: 14px; font-weight: 600; color: #111; }
+  .total-amount { font-size: 24px; font-weight: 700; color: #111; }
+  .total-sub { font-size: 12px; color: #aaa; text-align: right; }
+
+  .guarantee { margin-top: 20px; background: #f7f6f2; border-radius: 10px; padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start; }
+  .guarantee-icon { font-size: 20px; flex-shrink: 0; }
+  .guarantee-text strong { font-size: 13px; font-weight: 600; color: #111; display: block; margin-bottom: 3px; }
+  .guarantee-text span { font-size: 12px; color: #888; line-height: 1.5; }
+
+  .trust-row { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+  .trust-badge { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #aaa; }
+  .trust-badge svg { width: 12px; height: 12px; stroke: #aaa; fill: none; stroke-width: 2; }
+
+  /* SUCCESS STATE */
+  .success-screen { display: none; background: #fff; border-radius: 14px; border: 1px solid #e8e7e3; padding: 56px 40px; text-align: center; }
+  .success-icon { width: 64px; height: 64px; border-radius: 50%; background: #edf9d3; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; }
+  .success-icon svg { width: 28px; height: 28px; stroke: #3a7c0a; fill: none; stroke-width: 2.5; }
+  .success-screen h2 { font-size: 26px; font-weight: 700; color: #111; margin-bottom: 10px; }
+  .success-screen p { font-size: 15px; color: #888; line-height: 1.65; max-width: 380px; margin: 0 auto 28px; }
+  .success-detail { background: #f7f6f2; border-radius: 10px; padding: 16px 20px; text-align: left; margin-bottom: 24px; }
+  .success-detail-row { display: flex; justify-content: space-between; font-size: 13px; padding: 5px 0; }
+  .success-detail-row .key { color: #aaa; }
+  .success-detail-row .val { color: #111; font-weight: 500; }
+
+  /* STRIPE ELEMENT */
+  #stripe-card-element { border: 1px solid #e0deda; border-radius: 8px; padding: 11px 14px; background: #faf9f6; transition: border 0.15s, box-shadow 0.15s; }
+  #stripe-card-element.StripeElement--focus { border-color: #111; box-shadow: 0 0 0 3px rgba(0,0,0,0.06); background: #fff; }
+  #stripe-card-element.StripeElement--invalid { border-color: #e24b4a; }
+  .stripe-error { font-size: 12px; color: #e24b4a; margin-top: 6px; min-height: 18px; }
+  .submit-btn:disabled { background: #888; cursor: not-allowed; }
+  .spinner { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 720px) {
+    .page { grid-template-columns: 1fr; padding: 24px 16px 60px; }
+    .summary-col { position: static; order: -1; }
+    .card-fields { grid-template-columns: 1fr 1fr; }
+    .card-fields .field:first-child { grid-column: 1 / -1; }
+    .field-row { grid-template-columns: 1fr; }
+    nav { padding: 0 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="#">
+    <svg width="26" height="26" viewBox="0 0 38 38" fill="none"><rect width="38" height="38" rx="9" fill="#c8f97c"/><path d="M10 19 L16 13 L22 19 L28 13" stroke="#111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 25 L16 19 L22 25 L28 19" stroke="#111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/></svg>
+    <div class="nav-brand-name">Linx <span>Solutions</span></div>
+  </a>
+  <div class="nav-secure">
+    <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    Secure checkout
+  </div>
+</nav>
+
+<!-- PAGE -->
+<div class="page">
+
+  <!-- LEFT: FORM -->
+  <div class="form-col" id="form-col">
+
+    <!-- CONTACT -->
+    <div class="form-block">
+      <div class="block-title">Your information</div>
+      <div class="field-row">
+        <div class="field">
+          <label>First name</label>
+          <input type="text" id="first-name" placeholder="John">
+        </div>
+        <div class="field">
+          <label>Last name</label>
+          <input type="text" id="last-name" placeholder="Smith">
+        </div>
+      </div>
+      <div class="field">
+        <label>Business name</label>
+        <input type="text" id="biz-name" placeholder="e.g. Valley Roofing Co.">
+      </div>
+      <div class="field">
+        <label>Email address</label>
+        <input type="email" id="email" placeholder="john@yourcompany.com">
+      </div>
+      <div class="field">
+        <label>Phone number</label>
+        <input type="tel" id="phone" placeholder="+1 (555) 000-0000">
+      </div>
+    </div>
+
+    <!-- BUSINESS DETAILS -->
+    <div class="form-block">
+      <div class="block-title">Business details</div>
+      <div class="field">
+        <label>Industry</label>
+        <select id="industry">
+          <option value="">Select your industry…</option>
+          <option>Roofing</option>
+          <option>HVAC</option>
+          <option>Plumbing</option>
+          <option>Electrical</option>
+          <option>Med Spa</option>
+          <option>Dental</option>
+          <option>Law Firm</option>
+          <option>Landscaping</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Business phone number <span style="color:#bbb;font-weight:400;">(we'll connect text-back to this)</span></label>
+        <input type="tel" id="biz-phone" placeholder="+1 (555) 000-0000">
+      </div>
+      <div class="field">
+        <label>Google Business profile URL <span style="color:#bbb;font-weight:400;">(for review responder)</span></label>
+        <input type="url" id="google-url" placeholder="https://g.co/kgs/...">
+      </div>
+    </div>
+
+    <!-- PAYMENT -->
+    <div class="form-block">
+      <div class="block-title">Payment</div>
+      <div class="billing-notice">
+        🔒 Your card will be charged $500/month. Cancel anytime — no contracts.
+      </div>
+      <div class="field">
+        <label>Cardholder name</label>
+        <input type="text" id="card-name" placeholder="John Smith">
+      </div>
+      <div class="field">
+        <label>Card details</label>
+        <div id="stripe-card-element"></div>
+        <div id="stripe-card-error" class="stripe-error"></div>
+      </div>
+    </div>
+
+    <!-- CONSENT -->
+    <div class="form-block" style="padding: 20px 28px;">
+      <div class="check-row">
+        <input type="checkbox" id="agree" />
+        <label for="agree">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>. I understand my card will be charged $500/month and I can cancel at any time by contacting Linx Solutions.</label>
+      </div>
+    </div>
+
+    <button class="submit-btn" onclick="handleSubmit()">
+      <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      Start my subscription — $500/mo
+    </button>
+    <div class="submit-note">
+      <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      Secured with 256-bit SSL encryption · Powered by Stripe
+    </div>
+
+  </div>
+
+  <!-- SUCCESS (hidden until submit) -->
+  <div class="success-screen" id="success-screen">
+    <div class="success-icon">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <h2>You're all set!</h2>
+    <p>Welcome to Linx Solutions. We'll reach out within 1 business day to schedule your 15-minute onboarding call and get everything configured.</p>
+    <div class="success-detail" id="success-detail"></div>
+    <p style="font-size:13px;color:#aaa;">Check your inbox for a confirmation email. Questions? Email <a href="mailto:hello@linxsolutions.com" style="color:#111;">hello@linxsolutions.com</a></p>
+  </div>
+
+  <!-- RIGHT: ORDER SUMMARY -->
+  <div class="summary-col">
+    <div class="summary-card">
+      <div class="summary-header">
+        <div class="summary-header-label">Order summary</div>
+        <div class="summary-header-title">Growth Bundle</div>
+      </div>
+      <div class="summary-body">
+        <div class="summary-item">
+          <div class="item-info">
+            <div class="item-name">📱 Missed call text-back</div>
+            <div class="item-desc">Unlimited calls · 60-second response · fully managed</div>
+          </div>
+          <div class="item-price">$250</div>
+        </div>
+        <div class="summary-item">
+          <div class="item-info">
+            <div class="item-name">⭐ AI review responder</div>
+            <div class="item-desc">All Google reviews · 24hr turnaround · fully managed</div>
+          </div>
+          <div class="item-price">$250</div>
+        </div>
+        <div class="summary-item">
+          <div class="item-info">
+            <div class="item-name">🛠 Setup & onboarding</div>
+            <div class="item-desc">Full configuration included</div>
+          </div>
+          <div class="item-price" style="color:#3a7c0a;">Free</div>
+        </div>
+        <div class="summary-item">
+          <div class="item-info">
+            <div class="item-name">📊 Weekly performance reports</div>
+            <div class="item-desc">Calls recovered, reviews sent, trends</div>
+          </div>
+          <div class="item-price" style="color:#3a7c0a;">Free</div>
+        </div>
+        <div class="summary-total">
+          <div>
+            <div class="total-label">Total due today</div>
+            <div class="total-sub">then $500 / month</div>
+          </div>
+          <div>
+            <div class="total-amount">$500</div>
+          </div>
+        </div>
+        <div class="guarantee">
+          <div class="guarantee-icon">🛡</div>
+          <div class="guarantee-text">
+            <strong>No-contract guarantee</strong>
+            <span>Cancel anytime — no fees, no questions asked. We keep your business because of results, not paperwork.</span>
+          </div>
+        </div>
+        <div class="trust-row">
+          <div class="trust-badge">
+            <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            SSL Encrypted
+          </div>
+          <div class="trust-badge">
+            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Stripe Secured
+          </div>
+          <div class="trust-badge">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Cancel anytime
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ─────────────────────────────────────────────
+// STRIPE INTEGRATION
+// ─────────────────────────────────────────────
+// STEP 1: Paste your Stripe publishable key here
+const STRIPE_PUBLISHABLE_KEY = 'pk_live_51OdP4xLp893wXw0epdkSfGFBPzEWU9X4wlKjNjYCao0Spja4I9P5NkSHsoJyM1BRoudoN9wApmlrT83nbnPNh0o200wSNxkiY4';
+
+// STEP 2: Paste your Stripe Price ID for the $500/month subscription here
+// Create it in Stripe Dashboard → Products → Add product → Recurring · $500/mo
+const STRIPE_PRICE_ID = 'price_1TkYmfLp893wXw0e20uHDVm5';
+
+// STEP 3: Set your backend endpoint that creates a Stripe PaymentIntent or
+// SetupIntent and returns { clientSecret }. See comments below for what
+// your server needs to do.
+const BACKEND_URL = '/api/create-subscription';
+// ─────────────────────────────────────────────
+
+let stripe, cardElement;
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (!STRIPE_PUBLISHABLE_KEY.startsWith('pk_')) return;
+
+  stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
+  const elements = stripe.elements({
+    fonts: [{ cssSrc: 'https://fonts.googleapis.com/css2?family=Inter' }]
+  });
+
+  cardElement = elements.create('card', {
+    style: {
+      base: {
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+        fontSize: '14px',
+        color: '#1a1a18',
+        '::placeholder': { color: '#bbb' }
+      },
+      invalid: { color: '#e24b4a' }
+    },
+    hidePostalCode: false
+  });
+
+  cardElement.mount('#stripe-card-element');
+
+  cardElement.on('change', (e) => {
+    document.getElementById('stripe-card-error').textContent = e.error ? e.error.message : '';
+  });
+});
+
+async function handleSubmit() {
+  const firstName = document.getElementById('first-name').value.trim();
+  const lastName  = document.getElementById('last-name').value.trim();
+  const email     = document.getElementById('email').value.trim();
+  const biz       = document.getElementById('biz-name').value.trim();
+  const cardName  = document.getElementById('card-name').value.trim();
+  const agreed    = document.getElementById('agree').checked;
+
+  // Basic validation
+  if (!firstName || !lastName) { alert('Please enter your full name.'); return; }
+  if (!email)  { alert('Please enter your email address.'); return; }
+  if (!biz)    { alert('Please enter your business name.'); return; }
+  if (!cardName) { alert('Please enter the cardholder name.'); return; }
+  if (!agreed) { alert('Please agree to the Terms of Service to continue.'); return; }
+
+  const btn = document.querySelector('.submit-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner"></div> Processing…';
+
+  try {
+    /*
+    ── WHAT YOUR BACKEND (/api/create-subscription) NEEDS TO DO ──────────────
+    1. Create or retrieve a Stripe Customer with the email + name
+    2. Create a Stripe Subscription with:
+         customer: <customer_id>
+         items: [{ price: STRIPE_PRICE_ID }]
+         payment_behavior: 'default_incomplete'
+         expand: ['latest_invoice.payment_intent']
+    3. Return:
+         {
+           clientSecret: subscription.latest_invoice.payment_intent.client_secret,
+           subscriptionId: subscription.id,
+           customerId: customer.id
+         }
+    ──────────────────────────────────────────────────────────────────────────
+    */
+    const res = await fetch(BACKEND_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email,
+        name: `${firstName} ${lastName}`,
+        businessName: biz,
+        businessPhone: document.getElementById('biz-phone').value.trim(),
+        industry: document.getElementById('industry').value,
+        googleUrl: document.getElementById('google-url').value.trim(),
+        priceId: STRIPE_PRICE_ID
+      })
+    });
+
+    const { clientSecret, error: serverError } = await res.json();
+    if (serverError) throw new Error(serverError);
+
+    // Confirm the card payment with Stripe.js
+    const { error: stripeError, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: cardElement,
+        billing_details: {
+          name: cardName,
+          email
+        }
+      }
+    });
+
+    if (stripeError) {
+      document.getElementById('stripe-card-error').textContent = stripeError.message;
+      btn.disabled = false;
+      btn.innerHTML = '<svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Start my subscription — $500/mo';
+      return;
+    }
+
+    // ✅ Payment confirmed — show success screen
+    showSuccess(firstName, lastName, email, biz);
+
+  } catch (err) {
+    console.error('Payment error:', err);
+    document.getElementById('stripe-card-error').textContent =
+      'Something went wrong. Please try again or contact hello@linxsolutions.com';
+    btn.disabled = false;
+    btn.innerHTML = '<svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Start my subscription — $500/mo';
+  }
+}
+
+function showSuccess(firstName, lastName, email, biz) {
+  document.getElementById('form-col').style.display = 'none';
+  const success = document.getElementById('success-screen');
+  success.style.display = 'block';
+
+  const nextBilling = new Date();
+  nextBilling.setMonth(nextBilling.getMonth() + 1);
+
+  document.getElementById('success-detail').innerHTML = `
+    <div class="success-detail-row"><span class="key">Name</span><span class="val">${firstName} ${lastName}</span></div>
+    <div class="success-detail-row"><span class="key">Business</span><span class="val">${biz}</span></div>
+    <div class="success-detail-row"><span class="key">Email</span><span class="val">${email}</span></div>
+    <div class="success-detail-row"><span class="key">Plan</span><span class="val">Growth Bundle — $500/mo</span></div>
+    <div class="success-detail-row"><span class="key">Next billing</span><span class="val">${nextBilling.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'})}</span></div>
+  `;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
