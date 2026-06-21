@@ -32,22 +32,40 @@ app.post('/api/create-subscription', async (req, res) => {
       });
     }
 
-    const subscription = await stripe.subscriptions.create({
-      customer: customer.id,
-      items: [{ price: priceId }],
-      payment_behavior: 'default_incomplete',
-      payment_settings: {
-        save_default_payment_method: 'on_subscription',
-        payment_method_types: ['card']
-      },
-      expand: ['latest_invoice.payment_intent'],
-      metadata: { businessName, industry }
-    });
+const subscription = await stripe.subscriptions.create({
+  customer: customer.id,
+  items: [{ price: priceId }],
+  payment_behavior: 'default_incomplete',
+  payment_settings: {
+    save_default_payment_method: 'on_subscription',
+    payment_method_types: ['card']
+  },
+  expand: ['latest_invoice'],
+  metadata: { businessName, industry }
+});
 
-    console.log('Subscription object:', JSON.stringify(subscription.latest_invoice, null, 2));
+const invoice = subscription.latest_invoice;
 
+// Handle both old and new Stripe API behavior
+let clientSecret;
+if (invoice.payment_intent) {
+  clientSecret = invoice.payment_intent.client_secret;
+} else {
+  // Newer Stripe API — retrieve the payment intent separately
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: invoice.amount_due,
+    currency: invoice.currency,
+    customer: subscription.customer,
+    metadata: { subscriptionId: subscription.id }
+  });
+  clientSecret = paymentIntent.client_secret;
+}
 
-    const paymentIntent = subscription.latest_invoice.payment_intent;
+return res.json({
+  clientSecret,
+  subscriptionId: subscription.id,
+  customerId: customer.id
+});
 
     return res.json({
       clientSecret:   paymentIntent.client_secret,
