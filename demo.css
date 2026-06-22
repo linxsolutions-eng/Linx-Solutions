@@ -530,16 +530,26 @@ textarea {
 
 /* RESPONSIVE */
 @media (max-width: 800px) {
+  .demo-header {
+    padding: 14px 16px;
+  }
+  
   .demo-body {
     padding: 20px 16px;
   }
   
   .tabs {
     padding: 0 16px;
-    margin-top: 24px;
-    overflow-x: auto;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
+    margin-top: 16px;
+    display: flex;
+    gap: 8px;
+  }
+
+  .tab {
+    flex: 1;
+    text-align: center;
+    padding: 10px 12px;
+    font-size: 13px;
   }
   
   .two-col {
@@ -547,7 +557,36 @@ textarea {
     gap: 32px;
   }
   
+  .card {
+    padding: 20px;
+  }
+  
   .phone-mock {
     margin: 16px auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .tabs {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .tab {
+    width: 100%;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+    margin-top: 12px;
+  }
+
+  /* Override inline margin-left on sibling buttons like load example */
+  .btn + .btn,
+  .btn-outline,
+  #btn-load-example {
+    margin-left: 0 !important;
+    margin-top: 8px;
   }
 }

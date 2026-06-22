@@ -145,6 +145,10 @@ nav {
   transition: var(--transition-smooth);
 }
 
+.nav-cta-short {
+  display: none;
+}
+
 .nav-cta:hover {
   background: var(--accent-lime-hover);
   transform: translateY(-2px);
@@ -1078,6 +1082,14 @@ footer {
     padding: 0 1.5rem;
   }
   
+  section {
+    padding: 60px 0;
+  }
+
+  .hero {
+    padding: 60px 0 40px;
+  }
+
   .section-title {
     font-size: 32px;
   }
@@ -1085,10 +1097,18 @@ footer {
   .services-grid {
     grid-template-columns: 1fr;
   }
+
+  .service-card {
+    padding: 32px;
+  }
   
   .roi-grid {
     grid-template-columns: 1fr 1fr;
     gap: 16px;
+  }
+
+  .roi-card {
+    padding: 20px 16px;
   }
   
   .pricing-card {
@@ -1114,8 +1134,54 @@ footer {
 }
 
 @media (max-width: 480px) {
+  .inner {
+    padding: 0 1rem;
+  }
+  
+  .nav-inner {
+    padding: 0 1rem;
+  }
+
+  .nav-brand {
+    gap: 8px;
+  }
+
+  .nav-brand svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .nav-brand-name {
+    font-size: 17px;
+  }
+
+  .nav-cta {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+
+  .nav-cta-long {
+    display: none;
+  }
+
+  .nav-cta-short {
+    display: inline;
+  }
+
+  section {
+    padding: 48px 0;
+  }
+
+  .section-title {
+    font-size: 28px;
+  }
+
+  .section-sub, .hero-sub {
+    font-size: 15px;
+  }
+
   .hero h1 {
-    font-size: 36px;
+    font-size: 34px;
   }
   
   .hero-actions {
@@ -1127,9 +1193,17 @@ footer {
   .btn-primary, .btn-ghost {
     text-align: center;
   }
+
+  .service-card {
+    padding: 20px;
+  }
   
   .roi-grid {
     grid-template-columns: 1fr;
+  }
+
+  .pricing-card {
+    padding: 24px;
   }
   
   .price-amount {

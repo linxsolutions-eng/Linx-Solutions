@@ -635,3 +635,68 @@ nav {
     padding: 24px;
   }
 }
+
+@media (max-width: 480px) {
+  nav {
+    padding: 0 16px;
+  }
+  
+  .nav-brand-name {
+    font-size: 16px;
+  }
+
+  .nav-brand {
+    gap: 8px;
+  }
+
+  .nav-brand svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .nav-secure {
+    font-size: 12px;
+    gap: 6px;
+  }
+
+  .nav-secure svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .page {
+    padding: 16px 12px 48px;
+    gap: 24px;
+  }
+
+  .form-block {
+    padding: 16px;
+  }
+
+  #block-consent {
+    padding: 16px !important;
+  }
+
+  .field {
+    margin-bottom: 14px;
+  }
+
+  .field input,
+  .field select,
+  #stripe-card-element {
+    padding: 10px 14px;
+  }
+
+  .summary-header {
+    padding: 16px;
+  }
+
+  .summary-body {
+    padding: 16px;
+  }
+
+  .submit-btn {
+    padding: 15px;
+    font-size: 15px;
+  }
+}
