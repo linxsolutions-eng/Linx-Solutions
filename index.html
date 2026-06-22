@@ -1,224 +1,356 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="stylesheet" href="style.css">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Linx Solutions — Never Lose Another Lead</title>
-<style>
- 
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Linx Solutions — Done-for-You AI Services for Local Businesses</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Linx Solutions provides done-for-you AI systems for local businesses (roofers, HVAC, plumbers). Recover lost revenue with missed call text-backs within 60s and 24-hour Google review responders. Fully managed for $500/mo.">
+  <meta name="keywords" content="AI assistant, missed call text-back, Google review responder, local business growth, roofing AI, HVAC marketing, plumber AI, lead recovery">
+  <meta name="author" content="Linx Solutions">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://linxsolutions.com/">
+  <meta property="og:title" content="Linx Solutions — Never Lose Another Lead">
+  <meta property="og:description" content="Done-for-you AI services for local home service businesses. Missed call text-back and Google review reply automation. Fully managed for $500/mo.">
+  
+  <!-- Favicon / Styles -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<!-- NAV -->
-<nav>
-  <div class="nav-inner">
-    <div class="nav-brand">
-      <svg width="30" height="30" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="38" rx="9" fill="#c8f97c"/><path d="M10 19 L16 13 L22 19 L28 13" stroke="#111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 25 L16 19 L22 25 L28 19" stroke="#111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/></svg>
-      <div class="nav-brand-name">Linx <span>Solutions</span></div>
+
+  <!-- Background Grids and Ambient Lights -->
+  <div class="ambient-glow glow-top-right"></div>
+  <div class="ambient-glow glow-middle-left"></div>
+  <div class="ambient-glow glow-bottom-right"></div>
+
+  <!-- NAV -->
+  <nav id="main-nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="index.html" id="nav-home-link">
+        <svg width="32" height="32" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="38" height="38" rx="9" fill="#c8f97c"/>
+          <path d="M10 19 L16 13 L22 19 L28 13" stroke="#111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M10 25 L16 19 L22 25 L28 19" stroke="#111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/>
+        </svg>
+        <div class="nav-brand-name">Linx <span>Solutions</span></div>
+      </a>
+      <a class="nav-cta" href="checkout.html" id="nav-checkout-btn">See How it Works →</a>
     </div>
-    <a class="nav-cta" href="checkout.html">See How it Works →</a>
-  </div>
-</nav>
- 
-<!-- HERO -->
-<div class="hero">
-  <div class="inner">
-    <div class="hero-layout">
-      <div>
-        <div class="hero-eyebrow">Local business growth · Powered by AI</div>
-        <h1>Stop losing jobs to <em>missed calls</em> and ignored reviews.</h1>
-        <p class="hero-sub">Two simple systems that run in the background and recover revenue you're already leaving on the table — no extra ad spend needed.</p>
-        <div class="hero-actions">
-          <button class="btn-primary" onclick="location.href = 'https://calendly.com/linx-technologysolutions';">Book a free demo</button>
-          <a class="btn-ghost" href="demo.html">See How it Works</a>
-        </div>
-      </div>
-      <div class="hero-card">
-        <div class="hero-card-label">Why it matters</div>
-        <div class="hero-stat-list">
-          <div class="hero-stat">
-            <div class="hero-stat-num">78%</div>
-            <div class="hero-stat-desc">of customers go with whoever responds first</div>
-          </div>
-          <div class="hero-stat">
-            <div class="hero-stat-num">60s</div>
-            <div class="hero-stat-desc">our text-back fires within 60 seconds of a missed call</div>
-          </div>
-          <div class="hero-stat">
-            <div class="hero-stat-num">3×</div>
-            <div class="hero-stat-desc">more likely to convert when you respond in under a minute</div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero" id="hero-section">
+    <div class="inner">
+      <div class="hero-layout">
+        <div class="scroll-reveal">
+          <div class="hero-eyebrow">Local business growth · Powered by AI</div>
+          <h1>Stop losing jobs to <em>missed calls</em> and ignored reviews.</h1>
+          <p class="hero-sub">Two simple systems that run in the background and recover revenue you're already leaving on the table — no extra ad spend needed.</p>
+          <div class="hero-actions">
+            <button class="btn-primary" id="hero-demo-btn" onclick="location.href = 'https://calendly.com/linx-technologysolutions';">Book a free demo</button>
+            <a class="btn-ghost" id="hero-works-btn" href="demo.html">See How it Works</a>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
- 
-<!-- PROBLEM -->
-<section>
-  <div class="inner">
-    <div class="problem-layout">
-      <div>
-        <div class="section-eyebrow">The problem</div>
-        <div class="section-title">Leads you paid for are walking out the door.</div>
-      </div>
-      <div>
-        <p class="problem-quote">"When someone calls and you don't pick up, they don't wait — they call the next number on the list."</p>
-        <p class="problem-body">You paid for that lead through ads, word of mouth, or years of reputation. The same thing happens with reviews: a business that responds to every review ranks higher on Google and looks more trustworthy. Most owners know this. Almost nobody does it consistently.</p>
-      </div>
-    </div>
-  </div>
-</section>
- 
-<!-- SERVICES -->
-<section style="padding-top: 0; border-bottom: none;">
-  <div class="inner">
-    <div class="section-eyebrow">What you get</div>
-    <div class="section-title">Two tools. One monthly fee.</div>
-    <p class="section-sub">Each one solves a specific, measurable revenue leak that affects almost every local service business.</p>
-           
-    <div class="services-grid">
-      <div class="service-card">
-        <div class="service-icon-wrap icon-green">📱</div>
-        <div class="service-name">Missed call text-back</div>
-        <div class="service-desc">Within 60 seconds of a missed call, your customer gets a personalized text that keeps the conversation alive — even when you're on a job, in a meeting, or after hours. No leads left hanging.</div>
-      </div>
-      <div class="service-card">
-        <div class="service-icon-wrap icon-blue">⭐</div>
-        <div class="service-name">AI review responder</div>
-        <div class="service-desc">Every Google review — positive or negative — gets a thoughtful, personalized reply within 24 hours. Google rewards responsive businesses with better local rankings, and customers notice when someone's paying attention.</div>
-      </div>
-    </div>
-      <div class="btn-card">
-        <a class="btn-service" href = 'demo.html';>See How it Works</a>
-    </div>
-  </div>
-</section>
- 
-<!-- HOW IT WORKS -->
-<section class="how-section">
-  <div class="inner">
-    <div class="how-layout">
-      <div>
-        <div class="section-eyebrow">How it works</div>
-        <div class="section-title">Set up once. Runs forever.</div>
-        <p class="section-sub">The whole setup takes 15 minutes. After that, you don't touch it.</p>
-      </div>
-      <div class="how-steps">
-        <div class="how-step">
-          <div class="step-num">1</div>
-          <div class="step-content">
-            <strong>15-minute onboarding call</strong>
-            <span>You tell us about your business — how you talk to customers, your tone, what jobs you want more of. That's the extent of your involvement in setup.</span>
-          </div>
-        </div>
-        <div class="how-step">
-          <div class="step-num">2</div>
-          <div class="step-content">
-            <strong>We configure both systems</strong>
-            <span>The text-back connects to your existing business number. The review responder monitors your Google profile automatically. No new apps, no new logins for you.</span>
-          </div>
-        </div>
-        <div class="how-step">
-          <div class="step-num">3</div>
-          <div class="step-content">
-            <strong>It runs in the background</strong>
-            <span>You get a weekly summary of missed calls recovered and reviews responded to. You don't manage anything — we handle it all.</span>
+        
+        <div class="hero-card scroll-reveal">
+          <div class="hero-card-label">Why it matters</div>
+          <div class="hero-stat-list">
+            <div class="hero-stat">
+              <div class="hero-stat-num">78%</div>
+              <div class="hero-stat-desc">of customers go with whoever responds first</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-stat-num">60s</div>
+              <div class="hero-stat-desc">our text-back fires within 60 seconds of a missed call</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-stat-num">3×</div>
+              <div class="hero-stat-desc">more likely to convert when you respond in under a minute</div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</section>
- 
-<!-- ROI -->
-<div class="roi-section">
-  <div class="inner">
-    <div class="section-eyebrow">The math</div>
-    <div class="section-title">One recovered job pays for months of service.</div>
-    <p class="section-sub">Here's what the numbers look like for a typical roofing or HVAC company.</p>
-    <div class="roi-grid">
-      <div class="roi-card">
-        <div class="roi-label">Average job value</div>
-        <div class="roi-value">$1,500</div>
-      </div>
-      <div class="roi-card">
-        <div class="roi-label">Missed calls per month (typical)</div>
-        <div class="roi-value">8–12</div>
-      </div>
-      <div class="roi-card">
-        <div class="roi-label">Extra jobs closed with text-back</div>
-        <div class="roi-value">1–2 / mo</div>
-      </div>
-      <div class="roi-card highlight">
-        <div class="roi-label">Revenue recovered vs. $500/mo cost</div>
-        <div class="roi-value">$1,000+ net</div>
-      </div>
-    </div>
-  </div>
-</div>
- 
-<!-- PRICING -->
-<section style="border-bottom: none;">
-  <div class="inner">
-    <div class="pricing-layout">
-      <div>
-        <div class="section-eyebrow">Pricing</div>
-        <div class="price-display">
-          <div class="price-amount">$500</div>
-          <div class="price-per">/ month</div>
+
+  <!-- PROBLEM -->
+  <section id="problem-section">
+    <div class="inner">
+      <div class="problem-layout scroll-reveal">
+        <div>
+          <div class="section-eyebrow">The problem</div>
+          <h2 class="section-title">Leads you paid for are walking out the door.</h2>
         </div>
-        <div class="price-note">No contracts. Cancel anytime. Setup included.</div>
-        <div class="includes-list">
-          <div class="include-item">
-            <div class="check"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></div>
-            Missed call text-back (unlimited calls)
-          </div>
-          <div class="include-item">
-            <div class="check"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></div>
-            AI review responses for all Google reviews
-          </div>
-          <div class="include-item">
-            <div class="check"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></div>
-            Full setup and configuration — we handle everything
-          </div>
-          <div class="include-item">
-            <div class="check"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></div>
-            Weekly performance summary
-          </div>
-          <div class="include-item">
-            <div class="check"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></div>
-            Ongoing adjustments and support
-          </div>
+        <div class="problem-quote-wrap">
+          <p class="problem-quote">"When someone calls and you don't pick up, they don't wait — they call the next number on the list."</p>
+          <p class="problem-body">You paid for that lead through ads, word of mouth, or years of reputation. The same thing happens with reviews: a business that responds to every review ranks higher on Google and looks more trustworthy. Most owners know this. Almost nobody does it consistently.</p>
         </div>
       </div>
-      <div class="pricing-cta-col">
-        <h3>See it live before you commit.</h3>
-        <p>Book a free 15-minute demo and we'll show you exactly how both systems work — using your actual business name, your reviews, your calls. No slides, no fluff.</p>
-        <button class="btn-dark" onclick="location.href = 'https://calendly.com/linx-technologysolutions';">Book a free demo →</button>
-        <div class="cta-sub">Or Email Us Directly</div>
+    </div>
+  </section>
+
+  <!-- SERVICES / WHAT YOU GET -->
+  <section id="services-section">
+    <div class="inner">
+      <div class="scroll-reveal">
+        <div class="section-eyebrow">What you get</div>
+        <h2 class="section-title">Two tools. One monthly fee.</h2>
+        <p class="section-sub">Each one solves a specific, measurable revenue leak that affects almost every local service business.</p>
+      </div>
+             
+      <div class="services-grid">
+        <!-- SERVICE CARD 1 -->
+        <div class="service-card scroll-reveal">
+          <div class="service-card-top">
+            <div class="service-header-row">
+              <div class="service-icon-wrap icon-green">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+              </div>
+              <div class="service-name">Missed call text-back</div>
+            </div>
+            <div class="service-desc">Within 60 seconds of a missed call, your customer gets a personalized text that keeps the conversation alive — even when you're on a job, in a meeting, or after hours. No leads left hanging.</div>
+          </div>
+          
+          <!-- SMS Visual Mockup -->
+          <div class="service-mockup">
+            <div class="sms-mockup">
+              <div class="sms-header">
+                <span>Incoming call</span>
+                <span>Missed</span>
+              </div>
+              <div class="sms-bubble sms-in">Hey, are you guys available for a roofing estimate tomorrow afternoon?</div>
+              <div class="sms-bubble sms-out">Hey Mike! Just missed your call. We're on a job right now but wanted to see how we can help. What kind of roof estimate do you need?</div>
+              <div class="sms-tag">Sent within 60s</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SERVICE CARD 2 -->
+        <div class="service-card scroll-reveal">
+          <div class="service-card-top">
+            <div class="service-header-row">
+              <div class="service-icon-wrap icon-blue">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              </div>
+              <div class="service-name">AI review responder</div>
+            </div>
+            <div class="service-desc">Every Google review — positive or negative — gets a thoughtful, personalized reply within 24 hours. Google rewards responsive businesses with better local rankings, and customers notice when someone's paying attention.</div>
+          </div>
+          
+          <!-- Review Visual Mockup -->
+          <div class="service-mockup">
+            <div class="review-mockup">
+              <div class="review-user-row">
+                <div class="review-avatar">SM</div>
+                <div class="review-user-info">
+                  <div class="review-user-name">Sarah Mitchell</div>
+                  <div class="review-stars">★★★★★</div>
+                </div>
+              </div>
+              <div class="review-user-text">"Valley Roofing did a wonderful job replacing our roof! Fast, professional, and cleaned up everything."</div>
+              <div class="review-reply">
+                <div class="review-reply-label">Response from the owner</div>
+                <div class="review-reply-text">Hi Sarah! Thank you for the 5-star review. We're glad our roofing team delivered a fast and clean replacement for you. Let us know if you need anything else!</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="btn-card scroll-reveal">
+        <a class="btn-primary" id="services-demo-btn" href="demo.html">See How it Works</a>
       </div>
     </div>
-  </div>
-</section>
- 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <svg width="28" height="28" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="38" rx="9" fill="#c8f97c"/><path d="M10 19 L16 13 L22 19 L28 13" stroke="#111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 25 L16 19 L22 25 L28 19" stroke="#111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/></svg>
-      <div class="footer-brand-name">Linx <span>Solutions</span></div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-section" id="how-section">
+    <div class="inner">
+      <div class="how-layout">
+        <div class="scroll-reveal">
+          <div class="section-eyebrow">How it works</div>
+          <h2 class="section-title">Set up once. Runs forever.</h2>
+          <p class="section-sub">The whole setup takes 15 minutes. After that, you don't touch it.</p>
+        </div>
+        
+        <div class="how-steps">
+          <div class="how-step scroll-reveal">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <strong>15-minute onboarding call</strong>
+              <span>You tell us about your business — how you talk to customers, your tone, what jobs you want more of. That's the extent of your involvement in setup.</span>
+            </div>
+          </div>
+          <div class="how-step scroll-reveal">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <strong>We configure both systems</strong>
+              <span>The text-back connects to your existing business number. The review responder monitors your Google profile automatically. No new apps, no new logins for you.</span>
+            </div>
+          </div>
+          <div class="how-step scroll-reveal">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <strong>It runs in the background</strong>
+              <span>You get a weekly summary of missed calls recovered and reviews responded to. You don't manage anything — we handle it all.</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="footer-contacts">
-      <div class="footer-item"><a href="tel:+16232751311">📞 +1 (623) 275-1311</a></div>
-      <div class="footer-dot"></div>
-      <div class="footer-item"><a href="mailto:linx.technologysolutions@gmail.com">✉️ linx.technologysolutions@gmail.com</a></div>
-      <div class="footer-dot"></div>
-      <div class="footer-item"><a href="#">🌐 linxsolutions.com</a></div>
+  </section>
+
+  <!-- ROI / THE MATH -->
+  <section class="roi-section" id="roi-section">
+    <div class="inner">
+      <div class="scroll-reveal">
+        <div class="section-eyebrow">The math</div>
+        <h2 class="section-title">One recovered job pays for months of service.</h2>
+        <p class="section-sub">Here's what the numbers look like for a typical roofing or HVAC company.</p>
+      </div>
+      
+      <div class="roi-grid">
+        <div class="roi-card scroll-reveal">
+          <div class="roi-label">Average job value</div>
+          <div class="roi-value">$1,500</div>
+        </div>
+        <div class="roi-card scroll-reveal">
+          <div class="roi-label">Missed calls per month (typical)</div>
+          <div class="roi-value">8–12</div>
+        </div>
+        <div class="roi-card scroll-reveal">
+          <div class="roi-label">Extra jobs closed with text-back</div>
+          <div class="roi-value">1–2 / mo</div>
+        </div>
+        <div class="roi-card highlight scroll-reveal">
+          <div class="roi-label">Revenue recovered vs. $500/mo cost</div>
+          <div class="roi-value">$1,000+ net</div>
+        </div>
+      </div>
     </div>
-  </div>
-</footer>
- 
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing-section" id="pricing-section">
+    <div class="inner">
+      <div class="pricing-layout">
+        <div class="pricing-card scroll-reveal">
+          <div class="section-eyebrow">Pricing</div>
+          <div class="price-display">
+            <div class="price-amount">$500</div>
+            <div class="price-per">/ month</div>
+          </div>
+          <div class="price-note">No contracts. Cancel anytime. Setup included.</div>
+          
+          <div class="includes-list">
+            <div class="include-item">
+              <div class="check">
+                <svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg>
+              </div>
+              <span>Missed call text-back (unlimited calls)</span>
+            </div>
+            <div class="include-item">
+              <div class="check">
+                <svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg>
+              </div>
+              <span>AI review responses for all Google reviews</span>
+            </div>
+            <div class="include-item">
+              <div class="check">
+                <svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg>
+              </div>
+              <span>Full setup and configuration — we handle everything</span>
+            </div>
+            <div class="include-item">
+              <div class="check">
+                <svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg>
+              </div>
+              <span>Weekly performance summary</span>
+            </div>
+            <div class="include-item">
+              <div class="check">
+                <svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg>
+              </div>
+              <span>Ongoing adjustments and support</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="pricing-cta-col scroll-reveal">
+          <h3>See it live before you commit.</h3>
+          <p>Book a free 15-minute demo and we'll show you exactly how both systems work — using your actual business name, your reviews, your calls. No slides, no fluff.</p>
+          <button class="btn-primary" id="pricing-demo-btn" onclick="location.href = 'https://calendly.com/linx-technologysolutions';">Book a free demo →</button>
+          <div class="cta-sub">
+            <span>Or Email Us Directly:</span>
+            <a href="mailto:linx.technologysolutions@gmail.com" id="pricing-email-link">linx.technologysolutions@gmail.com</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <svg width="28" height="28" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="38" height="38" rx="9" fill="#c8f97c"/>
+          <path d="M10 19 L16 13 L22 19 L28 13" stroke="#111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M10 25 L16 19 L22 25 L28 19" stroke="#111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/>
+        </svg>
+        <div class="footer-brand-name">Linx <span>Solutions</span></div>
+      </div>
+      
+      <div class="footer-contacts">
+        <div class="footer-item">
+          <a href="tel:+16232751311" id="footer-phone-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            +1 (623) 275-1311
+          </a>
+        </div>
+        <div class="footer-dot"></div>
+        <div class="footer-item">
+          <a href="mailto:linx.technologysolutions@gmail.com" id="footer-email-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            linx.technologysolutions@gmail.com
+          </a>
+        </div>
+        <div class="footer-dot"></div>
+        <div class="footer-item">
+          <a href="#" id="footer-web-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            linxsolutions.com
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Animation Fallback for Unsupported Browsers (e.g., Firefox) -->
+  <script>
+    if (!CSS.supports('(animation-timeline: view()) and (animation-range: entry)')) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('in-view');
+            }
+          });
+        },
+        {
+          threshold: 0.1,
+          rootMargin: '0px 0px -50px 0px'
+        }
+      );
+
+      document.querySelectorAll('.scroll-reveal').forEach((el) => {
+        observer.observe(el);
+      });
+    }
+  </script>
+
 </body>
 </html>

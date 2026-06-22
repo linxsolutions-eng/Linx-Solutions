@@ -5,16 +5,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://js.stripe.com/v3/"></script>
-  <title>Checkout — Linx Solutions</title>
+  <title>Secure Checkout — Linx Solutions</title>
   <link rel="stylesheet" href="checkout.css">
 </head>
 
 <body>
 
+  <!-- Ambient Glow Background Nodes -->
+  <div class="ambient-glow glow-top-right"></div>
+  <div class="ambient-glow glow-bottom-left"></div>
+
   <!-- NAV -->
-  <nav>
-    <a class="nav-brand" href="#">
-      <svg width="26" height="26" viewBox="0 0 38 38" fill="none">
+  <nav id="checkout-nav">
+    <a class="nav-brand" href="index.html" id="nav-brand-link">
+      <svg width="30" height="30" viewBox="0 0 38 38" fill="none">
         <rect width="38" height="38" rx="9" fill="#c8f97c" />
         <path d="M10 19 L16 13 L22 19 L28 13" stroke="#111" stroke-width="2.5" stroke-linecap="round"
           stroke-linejoin="round" />
@@ -23,53 +27,53 @@
       </svg>
       <div class="nav-brand-name">Linx <span>Solutions</span></div>
     </a>
-    <div class="nav-secure">
-      <svg viewBox="0 0 24 24">
-        <rect x="3" y="11" width="18" height="11" rx="2" />
-        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+    <div class="nav-secure" id="nav-secure-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
       </svg>
       Secure checkout
     </div>
   </nav>
 
-  <!-- PAGE -->
+  <!-- PAGE CONTENT -->
   <div class="page">
 
     <!-- LEFT: FORM -->
     <div class="form-col" id="form-col">
 
       <!-- CONTACT -->
-      <div class="form-block">
+      <div class="form-block" id="block-contact">
         <div class="block-title">Your information</div>
         <div class="field-row">
           <div class="field">
-            <label>First name</label>
+            <label for="first-name">First name</label>
             <input type="text" id="first-name" placeholder="John">
           </div>
           <div class="field">
-            <label>Last name</label>
+            <label for="last-name">Last name</label>
             <input type="text" id="last-name" placeholder="Smith">
           </div>
         </div>
         <div class="field">
-          <label>Business name</label>
+          <label for="biz-name">Business name</label>
           <input type="text" id="biz-name" placeholder="e.g. Valley Roofing Co.">
         </div>
         <div class="field">
-          <label>Email address</label>
+          <label for="email">Email address</label>
           <input type="email" id="email" placeholder="john@yourcompany.com">
         </div>
         <div class="field">
-          <label>Phone number</label>
+          <label for="phone">Phone number</label>
           <input type="tel" id="phone" placeholder="+1 (555) 000-0000">
         </div>
       </div>
 
       <!-- BUSINESS DETAILS -->
-      <div class="form-block">
+      <div class="form-block" id="block-business">
         <div class="block-title">Business details</div>
         <div class="field">
-          <label>Industry</label>
+          <label for="industry">Industry</label>
           <select id="industry">
             <option value="">Select your industry…</option>
             <option>Roofing</option>
@@ -84,25 +88,29 @@
           </select>
         </div>
         <div class="field">
-          <label>Business phone number <span style="color:#bbb;font-weight:400;">(we'll connect text-back to
+          <label for="biz-phone">Business phone number <span style="color:var(--text-muted);font-weight:400;text-transform:none;">(we'll connect text-back to
               this)</span></label>
           <input type="tel" id="biz-phone" placeholder="+1 (555) 000-0000">
         </div>
         <div class="field">
-          <label>Google Business profile URL <span style="color:#bbb;font-weight:400;">(for review
+          <label for="google-url">Google Business profile URL <span style="color:var(--text-muted);font-weight:400;text-transform:none;">(for review
               responder)</span></label>
           <input type="url" id="google-url" placeholder="https://g.co/kgs/...">
         </div>
       </div>
 
       <!-- PAYMENT -->
-      <div class="form-block">
+      <div class="form-block" id="block-payment">
         <div class="block-title">Payment</div>
         <div class="billing-notice">
-          🔒 Your card will be charged $500/month. Cancel anytime — no contracts.
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+          Your card will be charged $500/month. Cancel anytime — no contracts.
         </div>
         <div class="field">
-          <label>Cardholder name</label>
+          <label for="card-name">Cardholder name</label>
           <input type="text" id="card-name" placeholder="John Smith">
         </div>
         <div class="field">
@@ -113,7 +121,7 @@
       </div>
 
       <!-- CONSENT -->
-      <div class="form-block" style="padding: 20px 28px;">
+      <div class="form-block" style="padding: 24px;" id="block-consent">
         <div class="check-row">
           <input type="checkbox" id="agree" />
           <label for="agree">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>. I
@@ -122,7 +130,7 @@
         </div>
       </div>
 
-      <button class="submit-btn" onclick="handleSubmit()">
+      <button class="submit-btn" id="submit-subscription-btn" onclick="handleSubmit()">
         <svg viewBox="0 0 24 24">
           <rect x="3" y="11" width="18" height="11" rx="2" />
           <path d="M7 11V7a5 5 0 0 1 10 0v4" />
@@ -150,8 +158,8 @@
       <p>Welcome to Linx Solutions. We'll reach out within 1 business day to schedule your 15-minute onboarding call and
         get everything configured.</p>
       <div class="success-detail" id="success-detail"></div>
-      <p style="font-size:13px;color:#aaa;">Check your inbox for a confirmation email. Questions? Email <a
-          href="mailto:hello@linxsolutions.com" style="color:#111;">hello@linxsolutions.com</a></p>
+      <p style="font-size:13.5px;color:var(--text-secondary);">Check your inbox for a confirmation email. Questions? Email <a
+          href="mailto:linx.technologysolutions@gmail.com" style="color:var(--accent-lime);text-decoration:underline;">linx.technologysolutions@gmail.com</a></p>
     </div>
 
     <!-- RIGHT: ORDER SUMMARY -->
@@ -181,14 +189,14 @@
               <div class="item-name">🛠 Setup & onboarding</div>
               <div class="item-desc">Full configuration included</div>
             </div>
-            <div class="item-price" style="color:#3a7c0a;">Free</div>
+            <div class="item-price" style="color:var(--accent-lime);">Free</div>
           </div>
           <div class="summary-item">
             <div class="item-info">
               <div class="item-name">📊 Weekly performance reports</div>
               <div class="item-desc">Calls recovered, reviews sent, trends</div>
             </div>
-            <div class="item-price" style="color:#3a7c0a;">Free</div>
+            <div class="item-price" style="color:var(--accent-lime);">Free</div>
           </div>
           <div class="summary-total">
             <div>
@@ -217,7 +225,8 @@
             </div>
             <div class="trust-badge">
               <svg viewBox="0 0 24 24">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                <rect x="3" y="11" width="18" height="11" rx="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
               </svg>
               Stripe Secured
             </div>

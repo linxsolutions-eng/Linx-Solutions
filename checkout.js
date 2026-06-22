@@ -27,10 +27,10 @@ document.addEventListener('DOMContentLoaded', () => {
   cardElement = elements.create('card', {
     style: {
       base: {
-        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+        fontFamily: "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif",
         fontSize: '14px',
-        color: '#1a1a18',
-        '::placeholder': { color: '#bbb' }
+        color: '#ffffff',
+        '::placeholder': { color: '#71717a' }
       },
       invalid: { color: '#e24b4a' }
     },

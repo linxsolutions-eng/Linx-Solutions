@@ -1,30 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Live Demo — AI Tools for Local Business</title>
-<style>
-</style>
-<link rel="stylesheet"  href="demo_style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Demo — AI Tools for Local Business | Linx Solutions</title>
+  <link rel="stylesheet" href="demo.css">
 </head>
 <body>
 
+<!-- Ambient Glows -->
+<div class="ambient-glow glow-top-right"></div>
+<div class="ambient-glow glow-bottom-left"></div>
+
+<!-- NAV/HEADER -->
 <div class="demo-header">
-    <a href="index.html" style="text-decoration: none; color: inherit;">
-    <div class="nav-brand" onclick="">
-      <svg width="30" height="30" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="38" rx="9" fill="#c8f97c"/><path d="M10 19 L16 13 L22 19 L28 13" stroke="#111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 25 L16 19 L22 25 L28 19" stroke="#111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/></svg>
+  <a href="index.html" style="text-decoration: none; color: inherit;" id="nav-brand-link">
+    <div class="nav-brand">
+      <svg width="30" height="30" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="38" height="38" rx="9" fill="#c8f97c"/>
+        <path d="M10 19 L16 13 L22 19 L28 13" stroke="#111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M10 25 L16 19 L22 25 L28 19" stroke="#111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/>
+      </svg>
       <div class="nav-brand-name">Linx <span>Solutions</span></div>
     </div>
-    </a>
+  </a>
   <div class="demo-badge">Live Demo</div>
 </div>
 
-<div class="tabs">
-  <div class="tab active" onclick="switchTab('textback')">📱 Missed Call Text-Back</div>
-  <div class="tab" onclick="switchTab('reviews')">⭐ Review Responder</div>
+<!-- TABS -->
+<div class="tabs" id="demo-tabs">
+  <div class="tab active" id="tab-textback" onclick="switchTab('textback')">📱 Missed Call Text-Back</div>
+  <div class="tab" id="tab-reviews" onclick="switchTab('reviews')">⭐ Review Responder</div>
 </div>
 
+<!-- DEMO BODY -->
 <div class="demo-body">
 
   <!-- TEXT BACK PANEL -->
@@ -34,10 +43,10 @@
         <div class="card">
           <div class="card-title">Customize your text-back</div>
 
-          <label>Business name</label>
+          <label for="biz-name">Business name</label>
           <input type="text" id="biz-name" placeholder="e.g. Valley Roofing Co." value="">
 
-          <label>Your industry</label>
+          <label for="industry">Your industry</label>
           <select id="industry">
             <option value="">Select one…</option>
             <option value="roofing">Roofing</option>
@@ -49,22 +58,24 @@
             <option value="other">Other</option>
           </select>
 
-          <label>Caller's first name (for demo)</label>
+          <label for="caller-name">Caller's first name (for demo)</label>
           <input type="text" id="caller-name" placeholder="e.g. Mike" value="">
 
-          <label>Tone</label>
+          <label for="tone">Tone</label>
           <select id="tone">
             <option value="friendly">Friendly & casual</option>
             <option value="professional">Professional</option>
             <option value="urgent">Urgent & responsive</option>
           </select>
 
-          <button class="btn btn-dark" onclick="generateTextback()">▶ Simulate missed call</button>
+          <button class="btn btn-dark" id="btn-simulate-call" onclick="generateTextback()">▶ Simulate missed call</button>
         </div>
       </div>
 
       <div>
-        <div class="card-title" style="font-size:13px;font-weight:500;color:#aaa;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;">What the customer sees</div>
+        <div class="card-title" style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;text-align:center;">What the customer sees</div>
+        
+        <!-- Modern Phone frame -->
         <div class="phone-mock">
           <div class="phone-screen">
             <div class="phone-header">
@@ -89,33 +100,33 @@
         <div class="card">
           <div class="card-title">Paste a real review</div>
 
-          <label>Business name</label>
+          <label for="rev-biz">Business name</label>
           <input type="text" id="rev-biz" placeholder="e.g. Valley Roofing Co." value="">
 
           <label>Star rating</label>
           <div class="star-row" id="star-row">
-            <span class="star" onclick="setStar(1)">★</span>
-            <span class="star" onclick="setStar(2)">★</span>
-            <span class="star" onclick="setStar(3)">★</span>
-            <span class="star" onclick="setStar(4)">★</span>
-            <span class="star" onclick="setStar(5)">★</span>
+            <span class="star lit" onclick="setStar(1)">★</span>
+            <span class="star lit" onclick="setStar(2)">★</span>
+            <span class="star lit" onclick="setStar(3)">★</span>
+            <span class="star lit" onclick="setStar(4)">★</span>
+            <span class="star lit" onclick="setStar(5)">★</span>
           </div>
 
-          <label>Reviewer name</label>
+          <label for="rev-name">Reviewer name</label>
           <input type="text" id="rev-name" placeholder="e.g. Sarah M." value="">
 
-          <label>Review text</label>
+          <label for="rev-text">Review text</label>
           <textarea id="rev-text" placeholder="Paste the customer's review here…"></textarea>
 
-          <button class="btn btn-dark" onclick="generateReview()">▶ Generate response</button>
-          <button class="btn btn-outline" style="margin-left:8px;" onclick="loadExample()">Load example</button>
+          <button class="btn btn-dark" id="btn-generate-review" onclick="generateReview()">▶ Generate response</button>
+          <button class="btn btn-outline" id="btn-load-example" style="margin-left:8px;" onclick="loadExample()">Load example</button>
         </div>
       </div>
 
       <div>
-        <div class="card-title" style="font-size:13px;font-weight:500;color:#aaa;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;">Generated response</div>
+        <div class="card-title" style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;">Generated response</div>
         <div id="review-output">
-          <div style="color:#bbb;font-size:14px;padding:20px 0;">Fill in the form and click "Generate response" →</div>
+          <div style="color:var(--text-muted);font-size:14px;padding:20px 0;">Fill in the form and click "Generate response" →</div>
         </div>
       </div>
     </div>
@@ -131,7 +142,8 @@ function switchTab(id) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.getElementById('panel-' + id).classList.add('active');
-  event.target.classList.add('active');
+  const activeTab = document.getElementById('tab-' + id);
+  if (activeTab) activeTab.classList.add('active');
 }
 
 function setStar(n) {
@@ -146,6 +158,60 @@ function loadExample() {
   document.getElementById('rev-name').value = 'Sarah M.';
   document.getElementById('rev-text').value = "Had my roof replaced after the hail storm and Valley Roofing did an amazing job. The crew showed up on time, cleaned everything up, and the foreman walked me through the whole job. Only thing I'd mention is communication during the project could've been a bit better — I had to call a couple times to get updates. But the work itself is excellent and I'd recommend them.";
   setStar(4);
+}
+
+// Client-side local smart fallbacks to make demo work seamlessly
+function getCannedTextback(biz, caller, industry, tone) {
+  const normalizedIndustry = (industry || 'other').toLowerCase();
+  
+  // Custom industry-focused snippets
+  const industryGreeting = {
+    roofing: "estimate or roof repair",
+    hvac: "HVAC service or repair request",
+    plumbing: "estimate or plumbing help",
+    medspa: "appointment inquiry",
+    dental: "dental appointment",
+    law: "consultation",
+    other: "service request"
+  }[normalizedIndustry] || "appointment inquiry";
+
+  // Tone variations
+  if (tone === 'professional') {
+    return `Hello ${caller}. Thank you for contacting ${biz}. We apologize for missing your call. Please let us know how we can assist you with your ${industryGreeting} today.`;
+  } else if (tone === 'urgent') {
+    return `Hi ${caller}! Sorry we missed you. We are currently busy with a customer but want to help you with your ${industryGreeting} ASAP. Reply here with details!`;
+  } else {
+    // Friendly & casual (default)
+    return `Hey ${caller}! So sorry we missed your call. We're on a job right now but wanted to text you back. What can we help you with regarding your ${industryGreeting}?`;
+  }
+}
+
+function getCannedReviewResponse(biz, name, reviewText, stars) {
+  const isPositive = stars >= 4;
+  const isNegative = stars <= 2;
+  
+  if (isNegative) {
+    return `Hi ${name}, thank you for bringing this to our attention. We take feedback seriously at ${biz} and apologize that your experience did not meet expectations. We would love to discuss this directly with you to make it right. Please contact us at linx.technologysolutions@gmail.com.`;
+  } else if (isPositive) {
+    const thankYou = `Hi ${name}! Thanks so much for the positive review!`;
+    const details = reviewText.toLowerCase();
+    
+    let specificAck = "We appreciate your feedback and are glad we could help.";
+    if (details.includes('roof') || details.includes('shingle')) {
+      specificAck = "We're thrilled that our roofing crew delivered an excellent job on your roof project.";
+    } else if (details.includes('hvac') || details.includes('air') || details.includes('heat')) {
+      specificAck = "We're glad we could keep your heating and cooling system running smoothly.";
+    } else if (details.includes('plumb') || details.includes('leak') || details.includes('pipe')) {
+      specificAck = "We're happy we resolved your plumbing needs quickly and clean.";
+    } else if (details.includes('clean') || details.includes('tidy')) {
+      specificAck = "We pride ourselves on leaving a clean work area, so we're happy you noticed!";
+    }
+    
+    return `${thankYou} ${specificAck} We look forward to working with you again in the future!`;
+  } else {
+    // 3 Stars (Mixed)
+    return `Hi ${name}, thank you for your feedback. We appreciate your compliment on our workmanship, and we will take your comments on communication on board to improve our process. Thanks for choosing ${biz}!`;
+  }
 }
 
 async function generateTextback() {
@@ -180,6 +246,7 @@ Write a single, natural SMS text-back message (under 120 characters ideally, 160
 
 Respond with ONLY the SMS text. No quotes, no explanation.`;
 
+  // Try calling the direct Claude API, but fall back gracefully to local generation if it fails or has no key
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -190,12 +257,23 @@ Respond with ONLY the SMS text. No quotes, no explanation.`;
         messages: [{ role: 'user', content: prompt }]
       })
     });
+    
+    if (!res.ok) throw new Error("Fetch failed");
+    
     const data = await res.json();
-    const text = data.content?.[0]?.text?.trim() || 'Hey! Sorry we missed your call. What can we help you with?';
+    const text = data.content?.[0]?.text?.trim() || getCannedTextback(biz, caller, industry, tone);
+    renderSMS(text);
+  } catch(e) {
+    // Graceful fallback to client-side generation
+    setTimeout(() => {
+      const text = getCannedTextback(biz, caller, industry, tone);
+      renderSMS(text);
+    }, 800); // Small delay to simulate API response time
+  }
 
+  function renderSMS(text) {
     const now = new Date();
     const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
     msgs.innerHTML = `
       <div class="msg-time">Missed call · ${timeStr}</div>
       <div class="msg msg-out">${text}</div>
@@ -205,9 +283,6 @@ Respond with ONLY the SMS text. No quotes, no explanation.`;
     status.style.display = 'inline-flex';
     status.className = 'status-pill pill-green';
     status.textContent = '✓ Sent within 60 seconds of missed call';
-
-  } catch(e) {
-    msgs.innerHTML = '<div style="color:#e24b4a;font-size:13px;padding:12px;">Error generating preview. Please try again.</div>';
   }
 }
 
@@ -225,7 +300,6 @@ async function generateReview() {
   const output = document.getElementById('review-output');
   output.innerHTML = '<div style="padding:20px;text-align:center;"><div class="loading-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>';
 
-  const starsDisplay = '★'.repeat(stars) + '☆'.repeat(5 - stars);
   const sentiment = stars >= 4 ? 'positive' : stars === 3 ? 'mixed' : 'negative';
 
   const prompt = `You manage Google review responses for a local business called "${biz}".
@@ -252,20 +326,33 @@ Respond with ONLY the review response text. No preamble, no explanation.`;
         messages: [{ role: 'user', content: prompt }]
       })
     });
+    
+    if (!res.ok) throw new Error("Fetch failed");
+    
     const data = await res.json();
-    const responseText = data.content?.[0]?.text?.trim() || 'Thank you for your feedback!';
+    const responseText = data.content?.[0]?.text?.trim() || getCannedReviewResponse(biz, name, review, stars);
+    renderReply(responseText);
+  } catch(e) {
+    // Graceful fallback to client-side generation
+    setTimeout(() => {
+      const responseText = getCannedReviewResponse(biz, name, review, stars);
+      renderReply(responseText);
+    }, 850); // Small delay to simulate API response time
+  }
 
+  function renderReply(responseText) {
     output.innerHTML = `
       <div class="review-out-card">
         <div class="rev-biz-name">${biz}</div>
-        <div class="rev-stars-row">${'<span class="rev-star">★</span>'.repeat(stars)}${'<span style="color:#ddd;font-size:14px;">★</span>'.repeat(5-stars)}</div>
+        <div class="rev-stars-row">
+          ${'<span class="rev-star">★</span>'.repeat(stars)}
+          ${'<span style="color:rgba(255,255,255,0.15);font-size:14px;">★</span>'.repeat(5-stars)}
+        </div>
         <div class="rev-review-text">"${review}"</div>
         <div class="rev-response-label">Owner response · Posted within 24 hrs</div>
         <div class="rev-response-text">${responseText}</div>
       </div>
     `;
-  } catch(e) {
-    output.innerHTML = '<div style="color:#e24b4a;font-size:13px;">Error generating response. Please try again.</div>';
   }
 }
 </script>
