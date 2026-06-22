@@ -882,6 +882,13 @@ section {
   fill: none;
 }
 
+.pricing-card-btn {
+  display: inline-flex;
+  width: 100%;
+  justify-content: center;
+  margin-top: 36px;
+}
+
 .pricing-cta-col {
   padding-left: 20px;
 }
