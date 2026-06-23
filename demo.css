@@ -590,3 +590,135 @@ textarea {
     margin-top: 8px;
   }
 }
+
+/* STEP SWITCHER */
+.step-switcher {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 4px;
+  border-radius: 99px;
+  border: 1px solid var(--border-color);
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.step-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.step-tab:hover:not(:disabled) {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.step-tab.active {
+  color: var(--bg-primary) !important;
+  background: var(--accent-lime) !important;
+  box-shadow: 0 2px 8px rgba(200, 249, 124, 0.15);
+}
+
+.step-tab:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  font-size: 10px;
+  background: rgba(255, 255, 255, 0.10);
+  color: inherit;
+}
+
+.step-tab.active .step-num {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+/* URGENCY BADGES */
+.urgency-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 99px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: inline-flex;
+  align-items: center;
+}
+
+.urgency-badge.urgent {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.urgency-badge.medium {
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.urgency-badge.low {
+  background: rgba(59, 130, 246, 0.15);
+  color: #3b82f6;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+/* Pulsing highlight for completed step hint */
+@keyframes pulse-glow {
+  0% { box-shadow: 0 0 0 0 rgba(200, 249, 124, 0.5); }
+  70% { box-shadow: 0 0 0 10px rgba(200, 249, 124, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(200, 249, 124, 0); }
+}
+
+.step-pulse {
+  animation: pulse-glow 2s infinite;
+  border: 1px solid rgba(200, 249, 124, 0.6) !important;
+}
+
+/* Typing indicator dot styles */
+.typing-dots {
+  display: inline-flex;
+  gap: 3px;
+  align-items: center;
+}
+
+.typing-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: typing-bounce 1.4s infinite both;
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typing-bounce {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40% { transform: scale(1.1); opacity: 1; }
+}

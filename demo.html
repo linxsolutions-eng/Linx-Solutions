@@ -73,18 +73,69 @@
       </div>
 
       <div>
-        <div class="card-title" style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;text-align:center;">What the customer sees</div>
+        <!-- Step Switcher Pill -->
+        <div class="step-switcher" id="textback-steps">
+          <button class="step-tab active" id="btn-step-1" onclick="setViewStep(1)" disabled>
+            <span class="step-num">1</span> Customer Chat
+          </button>
+          <button class="step-tab" id="btn-step-2" onclick="setViewStep(2)" disabled>
+            <span class="step-num">2</span> Lead Summary
+          </button>
+        </div>
         
         <!-- Modern Phone frame -->
         <div class="phone-mock">
-          <div class="phone-screen">
-            <div class="phone-header">
-              <div class="phone-contact">Text message</div>
+          <div class="phone-screen" style="min-height: 440px;">
+            <div class="phone-header" id="phone-header-container">
+              <div class="phone-contact" id="phone-contact-label">Text message</div>
               <div class="phone-name" id="phone-contact-name">—</div>
             </div>
-            <div class="phone-msgs" id="phone-msgs">
-              <div class="msg-time">Hit "Simulate missed call" to preview →</div>
+            
+            <!-- Screen 1: Chat Message Thread View -->
+            <div class="phone-msgs" id="phone-msgs" style="display: flex; flex-direction: column;">
+              <div class="msg-time" id="phone-msgs-placeholder">Hit "Simulate missed call" to preview →</div>
             </div>
+
+            <!-- Screen 2: Lead Summary View (Hidden by default) -->
+            <div id="phone-summary-view" style="display: none; height: 100%; flex-direction: column; justify-content: space-between; padding: 14px 10px; flex-grow: 1;">
+              <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 10px;">
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 8px;">
+                  <span style="font-size: 10px; font-weight: 700; color: var(--accent-lime); text-transform: uppercase; letter-spacing: 0.05em;">AI Lead Summary</span>
+                  <span id="summary-urgency-badge" class="urgency-badge urgent">🔴 Urgent</span>
+                </div>
+                
+                <div style="display: flex; flex-direction: column; gap: 8px; text-align: left;">
+                  <div>
+                    <div style="font-size: 9px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1px;">Name & Number</div>
+                    <div style="font-size: 13px; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 4px;">
+                      <span id="summary-name">👤 Mike Miller</span> 
+                    </div>
+                    <div id="summary-phone" style="font-size: 11px; color: var(--text-secondary); margin-top: 1px;">📞 555-0199</div>
+                  </div>
+                  
+                  <div>
+                    <div style="font-size: 9px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1px;">Reason</div>
+                    <div id="summary-reason" style="font-size: 12px; color: var(--text-secondary); line-height: 1.35;">
+                      Roof leak inspection request
+                    </div>
+                  </div>
+
+                  <div>
+                    <div style="font-size: 9px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1px;">AI Agent Summary</div>
+                    <div id="summary-notes" style="font-size: 11px; color: var(--text-secondary); line-height: 1.4; font-style: italic; background: rgba(0,0,0,0.25); padding: 8px; border-radius: 8px; border-left: 2px solid var(--accent-lime);">
+                      Client missed a call, texted back within 60s. Client has a roof leak from a storm and needs an inspection immediately. Callback requested.
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+              
+              <a id="summary-call-btn" href="tel:5550199" class="btn btn-dark" style="margin: 0; width: 100%; justify-content: center; font-size: 12px; padding: 10px; box-shadow: 0 4px 12px rgba(200, 249, 124, 0.15);">
+                📞 Call Back Now
+              </a>
+            </div>
+
           </div>
         </div>
         <div id="textback-status" class="status-pill pill-gray" style="display:none;margin:16px auto;width:fit-content;"></div>
@@ -214,75 +265,279 @@ function getCannedReviewResponse(biz, name, reviewText, stars) {
   }
 }
 
+let currentStep = 1;
+
+function setViewStep(step) {
+  currentStep = step;
+  
+  const step1Btn = document.getElementById('btn-step-1');
+  const step2Btn = document.getElementById('btn-step-2');
+  
+  const chatView = document.getElementById('phone-msgs');
+  const summaryView = document.getElementById('phone-summary-view');
+  
+  const headerLabel = document.getElementById('phone-contact-label');
+  const headerName = document.getElementById('phone-contact-name');
+  
+  if (step === 1) {
+    step1Btn.classList.add('active');
+    step2Btn.classList.remove('active');
+    
+    chatView.style.display = 'flex';
+    summaryView.style.display = 'none';
+    
+    headerLabel.textContent = 'Text message';
+    headerName.textContent = document.getElementById('biz-name').value.trim() || 'Valley Roofing Co.';
+  } else if (step === 2) {
+    step1Btn.classList.remove('active');
+    step2Btn.classList.add('active');
+    
+    chatView.style.display = 'none';
+    summaryView.style.display = 'flex';
+    
+    // Stop pulse styling if they clicked it
+    step2Btn.classList.remove('step-pulse');
+    
+    headerLabel.textContent = 'Linx Lead Alert';
+    headerName.textContent = '⚡ New Lead Summary';
+  }
+}
+
 async function generateTextback() {
-  const biz = document.getElementById('biz-name').value.trim() || 'our business';
-  const caller = document.getElementById('caller-name').value.trim() || 'there';
-  const industry = document.getElementById('industry').value;
-  const tone = document.getElementById('tone').value;
+  const biz = document.getElementById('biz-name').value.trim() || 'Valley Roofing Co.';
+  const caller = document.getElementById('caller-name').value.trim() || 'Mike';
+  const industry = document.getElementById('industry').value || 'roofing';
+  const tone = document.getElementById('tone').value || 'friendly';
+  
+  const simulateBtn = document.getElementById('btn-simulate-call');
+  simulateBtn.disabled = true;
+  simulateBtn.textContent = '⏳ Simulating...';
 
+  // Disable step buttons during simulation
+  const step1Btn = document.getElementById('btn-step-1');
+  const step2Btn = document.getElementById('btn-step-2');
+  step1Btn.disabled = true;
+  step2Btn.disabled = true;
+  step2Btn.classList.remove('step-pulse');
+  
+  // Set View to Step 1 Customer Chat
+  setViewStep(1);
+
+  // Set the contact name to the business name
   document.getElementById('phone-contact-name').textContent = biz;
+  
   const msgs = document.getElementById('phone-msgs');
-  msgs.innerHTML = '<div style="padding:20px;text-align:center;"><div class="loading-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>';
+  msgs.innerHTML = ''; // Clear placeholder
+  
+  const status = document.getElementById('textback-status');
+  status.style.display = 'inline-flex';
+  status.className = 'status-pill pill-gray';
+  status.textContent = '☎️ Call missed, agent preparing text-back...';
 
-  const industryLabel = {
-    roofing: 'roofing', hvac: 'HVAC', plumbing: 'plumbing',
-    medspa: 'med spa', dental: 'dental office', law: 'law firm', other: 'local service business'
-  }[industry] || 'local business';
+  // Industry-specific scripts
+  const dialogueTemplates = {
+    roofing: {
+      customerGreeting: "Hey, I noticed a leak in my roof after the storm yesterday and need someone to inspect it ASAP.",
+      reasonSummary: "Roof leak inspection request",
+      aiDetailsQuestion: {
+        friendly: "Oh no! Roof leaks are no fun. I can help. What's your full name and the best number to reach you?",
+        professional: "I understand. Roof damage requires prompt attention. Please provide your full name and primary phone number so we can register this request.",
+        urgent: "Got it, we need to address that roof leak quickly! Let me get your full name and best number to call you back right away."
+      },
+      aiSummary: "Client missed a call, texted back within 60s. Client has a roof leak from a storm and needs an inspection immediately. Callback requested.",
+      urgency: "urgent"
+    },
+    hvac: {
+      customerGreeting: "Hi, my air conditioning went out and it's 90 degrees inside. Need a technician today.",
+      reasonSummary: "AC system outage & repairs",
+      aiDetailsQuestion: {
+        friendly: "Yikes, 90 degrees is way too hot! Let's get that fixed. What's your full name and number?",
+        professional: "We apologize for the inconvenience. We can dispatch a technician. Please provide your full name and telephone number.",
+        urgent: "Ouch, that's an AC emergency! Let's get someone out there. What's your full name and phone number?"
+      },
+      aiSummary: "Client's AC system is completely out, indoor temp is rising. High priority request for a technician callback today.",
+      urgency: "urgent"
+    },
+    plumbing: {
+      customerGreeting: "Hello, my toilet is overflowing and I can't get the shutoff valve to turn off. Help!",
+      reasonSummary: "Overflowing toilet emergency",
+      aiDetailsQuestion: {
+        friendly: "Oh dear! That's a mess. Let's get a plumber out there. What's your name and best callback number?",
+        professional: "We understand this is an urgent plumbing issue. Please provide your full name and phone number immediately.",
+        urgent: "Emergency plumbing alert! Let's get this stopped. What's your name and phone number?"
+      },
+      aiSummary: "Active plumbing emergency: toilet overflowing, shutoff valve broken. Client needs immediate callback.",
+      urgency: "urgent"
+    },
+    medspa: {
+      customerGreeting: "Hi, I wanted to book a laser facial next week but your site wouldn't load the calendar.",
+      reasonSummary: "Laser facial booking error",
+      aiDetailsQuestion: {
+        friendly: "Oh, sorry about the site issue! I can get our booking team to call you. What's your full name and number?",
+        professional: "We apologize for the technical difficulty. Our coordinator will contact you. Please share your full name and number.",
+        urgent: "We want to get you booked in! Let's get this sorted. What is your full name and callback number?"
+      },
+      aiSummary: "Client had technical difficulties booking a laser facial online. Requesting callback to schedule.",
+      urgency: "medium"
+    },
+    dental: {
+      customerGreeting: "Hi, I have a really bad toothache and need to see a dentist. Do you have any emergency openings?",
+      reasonSummary: "Emergency toothache callback",
+      aiDetailsQuestion: {
+        friendly: "Ouch! Toothaches are the worst. Let's find you an opening. What's your name and phone number?",
+        professional: "We understand you are experiencing dental pain. Please share your full name and contact number for an urgent callback.",
+        urgent: "Dental pain is urgent! Let's get you in. What is your full name and phone number?"
+      },
+      aiSummary: "Client is suffering from a severe toothache and is requesting an emergency/same-day callback to see a dentist.",
+      urgency: "urgent"
+    },
+    law: {
+      customerGreeting: "Hello, I was in a car accident yesterday and need to speak with an attorney about a claim.",
+      reasonSummary: "Car accident legal consultation",
+      aiDetailsQuestion: {
+        friendly: "Oh my, I hope you're okay! Let's get you in touch with our legal team. What's your name and number?",
+        professional: "We hope you are safe. We can coordinate a consultation with an attorney. Please state your full name and phone number.",
+        urgent: "Car accident consultation request. Let's act quickly. What is your full name and callback number?"
+      },
+      aiSummary: "Client was involved in an auto accident and needs to schedule a callback with an attorney regarding a potential claim.",
+      urgency: "urgent"
+    },
+    other: {
+      customerGreeting: "Hi, I wanted to get a quote for services and have a couple questions.",
+      reasonSummary: "General quote inquiry",
+      aiDetailsQuestion: {
+        friendly: "Awesome, we'd love to help! What is your name and the best number to call you back?",
+        professional: "Thank you for your interest. We will prepare a quotation. Please provide your full name and number.",
+        urgent: "Let's get that quote processed immediately. What is your full name and phone number?"
+      },
+      aiSummary: "New lead looking for a custom service quotation and has additional questions. Callback requested.",
+      urgency: "medium"
+    }
+  };
 
-  const toneLabel = { friendly: 'friendly and warm', professional: 'professional and polished', urgent: 'urgent and action-oriented' }[tone];
+  const script = dialogueTemplates[industry] || dialogueTemplates.other;
+  const aiFirstText = getCannedTextback(biz, caller, industry, tone);
+  const aiDetailsText = script.aiDetailsQuestion[tone] || script.aiDetailsQuestion.friendly;
+  
+  // Format full name
+  const formattedFullName = `${caller} Miller`;
+  const clientPhoneNum = "555-0199";
 
-  const prompt = `You are an AI that sends instant text-back messages on behalf of local businesses when they miss a phone call.
+  const aiClosingText = tone === 'professional' 
+    ? `Thank you, ${caller}. We have registered your request for a ${script.reasonSummary.toLowerCase()}. A representative will contact you shortly at ${clientPhoneNum}.`
+    : tone === 'urgent'
+    ? `Perfect, ${caller}. Alert sent to our team: ${script.reasonSummary} for ${formattedFullName} at ${clientPhoneNum}. We are calling you back right now!`
+    : `Thanks ${caller}! I've logged your request for a ${script.reasonSummary.toLowerCase()}. I'm passing this to our team now, and they'll call you at ${clientPhoneNum} shortly.`;
 
-Business name: ${biz}
-Industry: ${industryLabel}
-Caller's name: ${caller}
-Tone: ${toneLabel}
+  // Animation timeline helpers
+  const now = new Date();
+  const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-Write a single, natural SMS text-back message (under 120 characters ideally, 160 max) that:
-1. Acknowledges the missed call
-2. Shows they care about the caller
-3. Invites the caller to reply with what they need
-4. Feels human, not robotic
+  // Add the timestamp once
+  const timeDiv = document.createElement('div');
+  timeDiv.className = 'msg-time';
+  timeDiv.textContent = `Missed call · ${timeStr}`;
+  msgs.appendChild(timeDiv);
 
-Respond with ONLY the SMS text. No quotes, no explanation.`;
-
-  // Try calling the direct Claude API, but fall back gracefully to local generation if it fails or has no key
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 1000,
-        messages: [{ role: 'user', content: prompt }]
-      })
-    });
-    
-    if (!res.ok) throw new Error("Fetch failed");
-    
-    const data = await res.json();
-    const text = data.content?.[0]?.text?.trim() || getCannedTextback(biz, caller, industry, tone);
-    renderSMS(text);
-  } catch(e) {
-    // Graceful fallback to client-side generation
-    setTimeout(() => {
-      const text = getCannedTextback(biz, caller, industry, tone);
-      renderSMS(text);
-    }, 800); // Small delay to simulate API response time
+  // Function to show typing indicator
+  function showTyping(isIncoming) {
+    const typingBubble = document.createElement('div');
+    typingBubble.id = 'typing-indicator';
+    typingBubble.className = `msg ${isIncoming ? 'msg-in' : 'msg-out'}`;
+    typingBubble.style.padding = '8px 12px';
+    typingBubble.style.alignSelf = isIncoming ? 'flex-start' : 'flex-end';
+    typingBubble.style.width = '45px';
+    typingBubble.innerHTML = `
+      <div class="typing-dots">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      </div>
+    `;
+    msgs.appendChild(typingBubble);
+    msgs.scrollTop = msgs.scrollHeight;
   }
 
-  function renderSMS(text) {
-    const now = new Date();
-    const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    msgs.innerHTML = `
-      <div class="msg-time">Missed call · ${timeStr}</div>
-      <div class="msg msg-out">${text}</div>
-    `;
+  function removeTyping() {
+    const typingBubble = document.getElementById('typing-indicator');
+    if (typingBubble) {
+      typingBubble.remove();
+    }
+  }
 
-    const status = document.getElementById('textback-status');
-    status.style.display = 'inline-flex';
-    status.className = 'status-pill pill-green';
-    status.textContent = '✓ Sent within 60 seconds of missed call';
+  function appendMessage(text, isIncoming) {
+    const msgDiv = document.createElement('div');
+    msgDiv.className = `msg ${isIncoming ? 'msg-in' : 'msg-out'}`;
+    msgDiv.textContent = text;
+    msgs.appendChild(msgDiv);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  const delay = ms => new Promise(res => setTimeout(res, ms));
+
+  // --- Start simulation ---
+  
+  // 1. Send first AI message
+  status.textContent = '⚡ Sending initial text-back...';
+  status.className = 'status-pill pill-green';
+  showTyping(false);
+  await delay(1000);
+  removeTyping();
+  appendMessage(aiFirstText, false);
+  
+  // 2. Customer replies with problem
+  showTyping(true);
+  await delay(1800);
+  removeTyping();
+  appendMessage(script.customerGreeting, true);
+
+  // 3. AI asks for contact details
+  showTyping(false);
+  await delay(1600);
+  removeTyping();
+  appendMessage(aiDetailsText, false);
+
+  // 4. Customer replies with name & phone
+  showTyping(true);
+  await delay(1800);
+  removeTyping();
+  appendMessage(`Yes, my full name is ${formattedFullName} and my number is ${clientPhoneNum}.`, true);
+
+  // 5. AI sends closing confirmation
+  showTyping(false);
+  await delay(1600);
+  removeTyping();
+  appendMessage(aiClosingText, false);
+
+  // 6. Complete Simulation & Enable Step 2
+  status.textContent = '✓ Lead conversation captured!';
+  status.className = 'status-pill pill-green';
+  simulateBtn.disabled = false;
+  simulateBtn.textContent = '▶ Simulate missed call';
+
+  // Setup Step 2 data
+  document.getElementById('summary-name').textContent = `👤 ${formattedFullName}`;
+  document.getElementById('summary-phone').textContent = `📞 ${clientPhoneNum}`;
+  document.getElementById('summary-reason').textContent = script.reasonSummary;
+  document.getElementById('summary-notes').textContent = script.aiSummary;
+  
+  const badge = document.getElementById('summary-urgency-badge');
+  badge.textContent = script.urgency === 'urgent' ? '🔴 Urgent' : '🟡 Medium';
+  badge.className = `urgency-badge ${script.urgency}`;
+  
+  document.getElementById('summary-call-btn').href = `tel:${clientPhoneNum.replace(/-/g, '')}`;
+  document.getElementById('summary-call-btn').textContent = `📞 Call ${caller} Back Now`;
+
+  // Enable step buttons
+  step1Btn.disabled = false;
+  step2Btn.disabled = false;
+  step2Btn.classList.add('step-pulse');
+
+  // Auto transition to Step 2 after 2.5 seconds
+  await delay(2500);
+  // Only switch if the user is still on step 1 (they didn't click manually)
+  if (currentStep === 1) {
+    setViewStep(2);
   }
 }
 
